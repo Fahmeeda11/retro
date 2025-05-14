@@ -1,17 +1,10 @@
-<<<<<<< HEAD
-=======
-#hello
->>>>>>> b55d6d381cd2bcc3619ad9b9b9b20ddca0456409
 import tkinter
 import uuid
 #to store comments of each cards
 card_comments = {}
-<<<<<<< HEAD
 ticard_comments = {}
 aicard_comments = {}
 
-=======
->>>>>>> b55d6d381cd2bcc3619ad9b9b9b20ddca0456409
 #main window/page
 root = tkinter.Tk()
 root.title("Retro Board")
@@ -244,11 +237,6 @@ def store_wentwell(event):
 #binding the went will card function with enter key.
 wentwell_entry.bind("<Return>", store_wentwell)
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> b55d6d381cd2bcc3619ad9b9b9b20ddca0456409
 #to improve comment section frame
 to_improve_frame = tkinter.Frame(container2, bg='beige', borderwidth=2, relief=tkinter.RIDGE)
 to_improve_frame.pack(side='left', fill='both', expand=True, padx=5)
@@ -259,7 +247,6 @@ tkinter.Label(to_improve_frame, text='To Improve', bg='beige', fg='black', font=
 to_improve_entry = tkinter.Entry(to_improve_frame, font=('Arial', 12), relief=tkinter.SUNKEN,
                                borderwidth=2)
 to_improve_entry.pack(fill='x', padx=5, pady=5)
-<<<<<<< HEAD
 #to improve entry binding
 to_improve_entry.insert(0, "Press enter to add card (@ to tag)")
 to_improve_entry.bind("<FocusIn>", lambda e: to_improve_entry.delete(0, 'end')
@@ -419,8 +406,6 @@ def store_toimprove(event):
 #binding the went will card function with enter key.
 to_improve_entry.bind("<Return>", store_toimprove)
 
-=======
->>>>>>> b55d6d381cd2bcc3619ad9b9b9b20ddca0456409
 #action items comment section frame
 actionitems_frame = tkinter.Frame(container2, bg='blue', borderwidth=2, relief=tkinter.RIDGE)
 actionitems_frame.pack(side='left', fill='both', expand=True, padx=5)
@@ -431,7 +416,6 @@ tkinter.Label(actionitems_frame, text='Action items', bg='blue', fg='black', fon
 actionitems_entry = tkinter.Entry(actionitems_frame, font=('Arial', 12), relief=tkinter.SUNKEN,
                                borderwidth=2)
 actionitems_entry.pack(fill='x', padx=5, pady=5)
-<<<<<<< HEAD
 
 #action items entry binding
 actionitems_entry.insert(0, "Press enter to add card (@ to tag)")
@@ -592,8 +576,6 @@ def store_actionitems(event):
 #binding the went will card function with enter key.
 actionitems_entry.bind("<Return>", store_actionitems)
 
-=======
->>>>>>> b55d6d381cd2bcc3619ad9b9b9b20ddca0456409
 #back button for page 4
 tkinter.Button(frame4, bg='black', fg='white', text= 'BACK',
                command=lambda :frame3.tkraise()).pack(padx=10, pady=20)
