@@ -1,7 +1,37 @@
 import tkinter
 import uuid
+import sys
+import inspect
+import os
+#importing new
+import requests
+import json
+import sqlite3
+#api path
+api_path = 'http://127.0.0.1:5000/boards'
+# functon to create new board
+def single_boards(board_name, description=""):
+    try:
+        response = requests.post(
+            f'{api_path}/boards',
+            json={
+                'board_name': board_name,
+                'description': description
+            }
+        )
+        
+        if response.status_code == 201:
+            return response.json()['board_id']
+        else:
+            error_msg = response.json().get('error', 'Unknown error occurred')
+            print(f"Error creating board: {error_msg}")
+            return None
+    except Exception as e:
+        print(f"API connection error: {e}")
+        return None
 #to store comments of each cards
 card_comments = {}
+board_id = None
 ticard_comments = {}
 aicard_comments = {}
 
@@ -591,8 +621,4 @@ main_butt.pack(padx= 100, pady= 200)
 
 frame1.tkraise()
 
-<<<<<<< HEAD
 root.mainloop()
-=======
-root.mainloop()
->>>>>>> b55d6d381cd2bcc3619ad9b9b9b20ddca0456409
