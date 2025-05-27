@@ -1,34 +1,33 @@
 import tkinter
 import uuid
-import sys
-import inspect
-import os
 #importing new
 import requests
-import json
 import sqlite3
+db_connect = sqlite3.connect('retroboard.db')
+
 #api path
-api_path = 'http://127.0.0.1:5000/boards'
-# functon to create new board
-def single_boards(board_name, description=""):
+api_path = 'http://127.0.0.1:5000'
+#integrate boards
+def create_board_api(board_name, description=""):
     try:
-        response = requests.post(
-            f'{api_path}/boards',
-            json={
-                'board_name': board_name,
-                'description': description
-            }
-        )
-        
+        payload = {
+            "board_name": board_name,
+            "description": description
+        }
+        response = requests.post("http://127.0.0.1:5000/boards", json=payload)
+
         if response.status_code == 201:
-            return response.json()['board_id']
+            result = response.json()
+            print("oard created with ID:", result['board_id'])
         else:
-            error_msg = response.json().get('error', 'Unknown error occurred')
-            print(f"Error creating board: {error_msg}")
-            return None
+            print("Failed to create board:", response.json())
     except Exception as e:
-        print(f"API connection error: {e}")
-        return None
+        print(" API call failed:", str(e))
+        
+        
+
+
+         
 #to store comments of each cards
 card_comments = {}
 board_id = None
@@ -74,13 +73,21 @@ e1.pack(side='left')
 #input for description frame
 input_frame2 = tkinter.Frame(frame3, bg='white')
 input_frame2.pack()
-tkinter.Label(input_frame2, text="Description:").pack(side='left', pady=(10,20))
+#red
+description_entry = tkinter.Entry(input_frame2, relief=tkinter.RAISED, width=25)
+description_entry.pack(side='left')
+#red added
+create_board_api(e1.get(), description_entry.get())
+
+
+
 #entry field for description
 e1 = tkinter.Entry(input_frame2, relief=tkinter.RAISED, width=25)
 e1.pack(side='left')
 #next button of page 3
 next_butt= tkinter.Button(frame3,bg= 'blue', fg= 'black', text ='NEXT', relief= tkinter.RAISED,
-                          borderwidth= 1, command=lambda: frame4.tkraise())
+                          borderwidth= 1, #red change 
+                          command=lambda: frame4.tkraise())
 next_butt.pack()
 #bind page 3 to enter
 
@@ -119,6 +126,10 @@ wentwell_cards_frame.pack(fill='both', expand=True)
 def store_wentwell(event):
     wwcard_text = wentwell_entry.get() #gets user input
     if wwcard_text.strip(): #if the entry field is empty
+        
+        
+
+
         card_id = str(uuid.uuid4()) #create unique ids for card
         card_comments[card_id] = [] #initialize comments list for this card
         #container to hold icon and card
