@@ -18,13 +18,46 @@ def create_board_api(board_name, description=""):
 
         if response.status_code == 201:
             result = response.json()
-            print("oard created with ID:", result['board_id'])
+            print("board created with ID:", result['board_id'])
         else:
             print("Failed to create board:", response.json())
     except Exception as e:
         print(" API call failed:", str(e))
-        
-        
+def save_board():
+    create_board_api(board_name.get(), description_entry.get())
+    frame4.tkraise()  # Raise frame4 after saving the board
+
+
+# def get_boards():
+
+
+def show_boards(boardsFrame,previousframe):
+    #back  button to go back to main page
+    response= requests.get("http://127.0.0.1:5000/get_boards")
+    #clear the boardsFrame before displaying new boards
+    for widget in boardsFrame.winfo_children():
+        widget.destroy()
+    tkinter.Button(boardsFrame, text='Back to Main', command=lambda: previousframe.tkraise(), bg='white', fg='black',).pack(pady=20)   # Fetch boards from the API
+    tkinter.Label(boardsFrame, text='Boards List', font=('Arial', 16, 'bold'), bg='white').pack(pady=10)
+    
+    if response.status_code == 200:
+        boards = response.json()
+        if not boards:
+            tkinter.Label(boardsFrame, text='No boards found', bg='white').pack(pady=20)
+        else:
+            for board in boards:
+                board_button = tkinter.Button(boardsFrame, text=board['board_name'], font=('Arial', 14),
+                                            command=lambda b=board: open_board(b['board_id']))
+                board_button.pack(pady=5, padx=10, fill='x')
+
+    boardsFrame.tkraise()  # Raise the specified frame
+
+    
+
+# def onClickBoard():
+
+
+
 
 
          
@@ -46,7 +79,8 @@ frame1 = tkinter.Frame(container, bg= 'Sky blue')
 frame2 = tkinter.Frame(container, bg= 'white')
 frame3 = tkinter.Frame(container, bg= 'white')
 frame4 = tkinter.Frame(container, bg= 'beige')
-for frame in (frame1, frame2, frame3, frame4):
+boardListFrame = tkinter.Frame(container, bg='white')
+for frame in (frame1, frame2, frame3, frame4,boardListFrame):
     frame.grid(row=0, column=0, sticky="nsew")
 
 #displaying boardname on next page
@@ -76,9 +110,6 @@ input_frame2.pack()
 #red
 description_entry = tkinter.Entry(input_frame2, relief=tkinter.RAISED, width=25)
 description_entry.pack(side='left')
-#red added
-create_board_api(e1.get(), description_entry.get())
-
 
 
 #entry field for description
@@ -87,7 +118,7 @@ e1.pack(side='left')
 #next button of page 3
 next_butt= tkinter.Button(frame3,bg= 'blue', fg= 'black', text ='NEXT', relief= tkinter.RAISED,
                           borderwidth= 1, #red change 
-                          command=lambda: frame4.tkraise())
+                          command=lambda: save_board())
 next_butt.pack()
 #bind page 3 to enter
 
@@ -629,6 +660,16 @@ main_butt = tkinter.Button(frame1, bg= 'Blue',
                            borderwidth= 3,
                            command=lambda: frame2.tkraise())
 main_butt.pack(padx= 100, pady= 200)
+
+show_butt=tkinter.Button(frame1, bg= 'red',
+                           fg= 'white',
+                           text= 'show Boards',
+                           font= ('Times New Roman', 14),
+                           relief= tkinter.RAISED,
+                           borderwidth= 3,
+                           command=lambda: show_boards(boardListFrame,frame1)) # Placeholder for show boards functionality
+show_butt.pack(padx= 10, pady= 10)
+
 
 frame1.tkraise()
 
